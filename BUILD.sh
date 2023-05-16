@@ -17,3 +17,5 @@ go get ./
 
 echo Building
 go build -o ../bin/APIGateway .
+
+cd .. # return to root
