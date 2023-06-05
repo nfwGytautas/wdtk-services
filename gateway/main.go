@@ -4,7 +4,6 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/nfwGytautas/wdtk-services/gateway/auth"
 	"github.com/nfwGytautas/wdtk-services/gateway/forward"
 )
 
@@ -15,10 +14,10 @@ func main() {
 	r := gin.Default()
 
 	// Setup authentication
-	auth.Setup()
+	// auth.Setup()
 
 	// Configure gin
-	auth.AddRoutes(r)
+	// auth.AddRoutes(r)
 
 	// Configure forwarding routes
 	forward.SetupRoutes(r)

@@ -19,3 +19,19 @@ echo Building
 go build -o ../bin/APIGateway .
 
 cd .. # return to root
+
+# Auth
+echo Building auth
+
+cd auth/
+
+echo Running go tidy
+go mod tidy
+
+echo Downloading dependencies
+go get ./
+
+echo Building
+go build -o ../bin/Auth .
+
+cd .. # return to root
