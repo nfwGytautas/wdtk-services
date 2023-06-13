@@ -1,1 +1,4 @@
 bin/
+
+# Testing
+authentication/ServiceConfig.json

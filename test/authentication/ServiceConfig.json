@@ -1,5 +1,5 @@
 {
-    "RunAddress": ":8080",
-    "Gateway": "...",
-    "ConnectionString": "Mock"
+    "runAddress": ":8080",
+    "gateway": "...",
+    "connectionString": "Mock"
 }

@@ -1,4 +1,6 @@
 go 1.20
 
 use ./gateway
-use ./auth
+use ./authentication
+
+use ./test/authentication
