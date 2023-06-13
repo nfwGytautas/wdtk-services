@@ -1,0 +1,5 @@
+{
+    "RunAddress": ":8080",
+    "Gateway": "...",
+    "ConnectionString": "Mock"
+}
