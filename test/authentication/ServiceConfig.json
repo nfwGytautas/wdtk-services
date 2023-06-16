@@ -1,5 +1,6 @@
 {
     "runAddress": ":8080",
     "gateway": "...",
-    "connectionString": "Mock"
+    "connectionString": "Mock",
+    "apiKey": "TEST_KEY"
 }
