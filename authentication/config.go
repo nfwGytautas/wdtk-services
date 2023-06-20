@@ -12,8 +12,8 @@ func setupAuthService(context *context.AuthData, config map[string]interface{}) 
 	log.Printf("- RunAddress       : %s", config["runAddress"])
 	log.Printf("- Gateway          : %s", config["gateway"])
 	log.Printf("- ConnectionString : %s", config["connectionString"])
+	log.Printf("- ApiKey		   : %s", config["apiKey"])
 
-	// TODO: Setup database here
-
-	return nil
+	err := context.SetupDatabase(config["connectionString"].(string))
+	return err
 }

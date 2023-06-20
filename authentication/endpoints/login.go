@@ -7,6 +7,8 @@ import (
 
 	"github.com/nfwGytautas/gdev/jwt"
 	"github.com/nfwGytautas/wdtk-go-backend/microservice"
+	"github.com/nfwGytautas/wdtk-services/auth/context"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type loginIn struct {
@@ -28,10 +30,21 @@ func Login(executor *microservice.EndpointExecutor) {
 		return
 	}
 
-	// TODO: Database query
+	// Get user
+	user, err := executor.ServiceContext.(*context.AuthData).GetUser(requestData.Identifier)
+	if err != nil {
+		executor.Return(http.StatusBadRequest, err)
+		return
+	}
+
+	// Check if correct login information
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(requestData.Password))
+	if err != nil || err == bcrypt.ErrMismatchedHashAndPassword {
+		executor.Return(http.StatusBadRequest, "")
+	}
 
 	// Generate jwt token
-	token, err := jwt.GenerateToken(123, "Role")
+	token, err := jwt.GenerateToken(user.ID, user.Role)
 	if err != nil {
 		executor.Return(http.StatusInternalServerError, err)
 		return

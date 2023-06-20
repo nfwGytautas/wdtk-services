@@ -1,11 +1,11 @@
 package endpoints
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/nfwGytautas/wdtk-go-backend/microservice"
+	"github.com/nfwGytautas/wdtk-services/auth/context"
 )
 
 type meOut struct {
@@ -16,12 +16,15 @@ type meOut struct {
 func Me(executor *microservice.EndpointExecutor) {
 	log.Println("Executing me request")
 
-	// TODO: Database query
-	fmt.Println(executor.RequesterInfo)
+	user, err := executor.ServiceContext.(*context.AuthData).GetUserByID(executor.RequesterInfo.ID)
+	if err != nil {
+		executor.Return(http.StatusBadRequest, err)
+		return
+	}
 
 	result := meOut{
-		Identifier: "identifier",
-		Role:       executor.RequesterInfo.Role,
+		Identifier: user.Identifier,
+		Role:       user.Role,
 	}
 
 	executor.Return(http.StatusOK, result)
