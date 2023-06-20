@@ -10,7 +10,7 @@ func setupAuthService(context *context.AuthData, config map[string]interface{}) 
 	log.Println("Setting up authentication service")
 
 	log.Printf("- RunAddress       : %s", config["runAddress"])
-	log.Printf("- Gateway          : %s", config["gateway"])
+	log.Printf("- Gateway          : %s", config["gatewayIp"])
 	log.Printf("- ConnectionString : %s", config["connectionString"])
 	log.Printf("- ApiKey           : %s", config["apiKey"])
 
