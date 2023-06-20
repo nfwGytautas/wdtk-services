@@ -3,8 +3,8 @@ module github.com/nfwGytautas/wdtk-services/auth
 go 1.20
 
 require (
-	github.com/nfwGytautas/gdev v0.0.0-20230616075725-348522332fa3
-	github.com/nfwGytautas/wdtk-go-backend/microservice v0.0.0-20230616093011-ab6e0231b281
+	github.com/nfwGytautas/gdev v0.0.0-20230620074412-1e266aa35e73
+	github.com/nfwGytautas/wdtk-go-backend/microservice v0.0.0-20230620175549-801dfafd5ca1
 	golang.org/x/crypto v0.10.0
 	gorm.io/driver/mysql v1.5.1
 	gorm.io/gorm v1.25.1
