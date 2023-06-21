@@ -1,0 +1,10 @@
+{
+    "apiKey": "21215eea-a076-461f-bfb9-fb8b83e83302",
+    "locatorTable": [
+        {
+            "service": "Authentication",
+            "ip": "127.0.0.1:8081"
+        }
+    ],
+    "runAddress": "127.0.0.1:8080"
+}

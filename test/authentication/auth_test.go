@@ -8,7 +8,7 @@ import (
 	"net/http/httputil"
 	"testing"
 
-	"github.com/nfwGytautas/gdev/jwt"
+	"github.com/nfwGytautas/wdtk-go-backend/microservice"
 )
 
 func TestLogin(t *testing.T) {
@@ -72,7 +72,7 @@ func TestRegister(t *testing.T) {
 }
 
 func TestMe(t *testing.T) {
-	jwt.APISecret = "TEST_KEY"
+	microservice.APISecret = "TEST_KEY"
 
 	request, err := http.NewRequest("GET", "http://localhost:8080/Me/", nil)
 	if err != nil {
@@ -80,7 +80,7 @@ func TestMe(t *testing.T) {
 		return
 	}
 
-	tokenString, err := jwt.GenerateToken(123, "Role")
+	tokenString, err := microservice.GenerateToken(123, "Role")
 	if err != nil {
 		t.Error(err)
 		return

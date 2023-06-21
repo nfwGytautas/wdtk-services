@@ -22,6 +22,8 @@ type AuthData struct {
 	dbConn *gorm.DB
 }
 
+var Context AuthData
+
 func (ad *AuthData) SetupDatabase(connectionString string) error {
 	var err error
 	ad.dbConn, err = gorm.Open(mysql.Open(connectionString), &gorm.Config{})

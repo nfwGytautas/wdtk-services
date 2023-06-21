@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gin-gonic/gin"
 	"github.com/nfwGytautas/wdtk-go-backend/microservice"
 	"github.com/nfwGytautas/wdtk-services/auth/context"
 )
@@ -13,12 +14,24 @@ type meOut struct {
 	Role       string `json:"role"`
 }
 
-func Me(executor *microservice.EndpointExecutor) {
+func Me(c *gin.Context) {
 	log.Println("Executing me request")
 
-	user, err := executor.ServiceContext.(*context.AuthData).GetUserByID(executor.RequesterInfo.ID)
+	tokenInfo, err := microservice.GetTokenInfo(c)
 	if err != nil {
-		executor.Return(http.StatusBadRequest, err)
+		c.JSON(http.StatusInternalServerError, microservice.EndpointError{
+			Description: "Failed to get token info",
+			Error:       err,
+		})
+		return
+	}
+
+	user, err := context.Context.GetUserByID(tokenInfo.ID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, microservice.EndpointError{
+			Description: "Failed to get user",
+			Error:       err,
+		})
 		return
 	}
 
@@ -27,5 +40,5 @@ func Me(executor *microservice.EndpointExecutor) {
 		Role:       user.Role,
 	}
 
-	executor.Return(http.StatusOK, result)
+	c.JSON(http.StatusOK, result)
 }

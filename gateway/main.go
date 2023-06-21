@@ -4,24 +4,25 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/nfwGytautas/wdtk-services/gateway/forward"
+	"github.com/nfwGytautas/wdtk-go-backend/microservice"
 )
 
 func main() {
-	log.Println("Setting up API gateway")
+	log.Println("Running WDTK API gateway")
+
+	// Read generated config
+	config, err := microservice.ReadConfig()
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	// Create gin engine
 	r := gin.Default()
-
-	// Setup authentication
-	// auth.Setup()
-
-	// Configure gin
-	// auth.AddRoutes(r)
+	r.SetTrustedProxies(nil)
 
 	// Configure forwarding routes
-	forward.SetupRoutes(r)
+	SetupRoutes(config, r)
 
 	// Run gin and block routine
-	r.Run(":8080")
+	r.Run(config.RunAddress)
 }

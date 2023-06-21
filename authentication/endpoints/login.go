@@ -1,11 +1,10 @@
 package endpoints
 
 import (
-	"encoding/json"
 	"log"
 	"net/http"
 
-	"github.com/nfwGytautas/gdev/jwt"
+	"github.com/gin-gonic/gin"
 	"github.com/nfwGytautas/wdtk-go-backend/microservice"
 	"github.com/nfwGytautas/wdtk-services/auth/context"
 	"golang.org/x/crypto/bcrypt"
@@ -20,39 +19,49 @@ type loginOut struct {
 	Token string `json:"token"`
 }
 
-func Login(executor *microservice.EndpointExecutor) {
+func Login(c *gin.Context) {
 	log.Println("Executing login request")
 
 	var requestData loginIn
-	err := json.Unmarshal(executor.Body, &requestData)
-	if err != nil {
-		executor.Return(http.StatusBadRequest, err)
+	if !microservice.GinParseRequestBody(c, &requestData) {
 		return
 	}
 
 	// Get user
-	user, err := executor.ServiceContext.(*context.AuthData).GetUser(requestData.Identifier)
+	user, err := context.Context.GetUser(requestData.Identifier)
 	if err != nil {
-		executor.Return(http.StatusBadRequest, err)
+		// Don't send error info for security
+		c.JSON(http.StatusBadRequest, microservice.EndpointError{
+			Description: "Credentials invalid",
+			Error:       nil,
+		})
 		return
 	}
 
 	// Check if correct login information
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(requestData.Password))
 	if err != nil || err == bcrypt.ErrMismatchedHashAndPassword {
-		executor.Return(http.StatusBadRequest, "")
+		// Don't send error info for security
+		c.JSON(http.StatusBadRequest, microservice.EndpointError{
+			Description: "Credentials invalid",
+			Error:       nil,
+		})
+		return
 	}
 
 	// Generate jwt token
-	token, err := jwt.GenerateToken(user.ID, user.Role)
+	token, err := microservice.GenerateToken(user.ID, user.Role)
 	if err != nil {
-		executor.Return(http.StatusInternalServerError, err)
+		// Don't send error info for security
+		c.JSON(http.StatusBadRequest, microservice.EndpointError{
+			Description: "Failed to generate a token",
+			Error:       err,
+		})
 		return
 	}
 
 	result := loginOut{
 		Token: token,
 	}
-
-	executor.Return(http.StatusOK, result)
+	c.JSON(http.StatusOK, result)
 }

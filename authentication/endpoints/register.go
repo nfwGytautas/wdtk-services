@@ -1,10 +1,10 @@
 package endpoints
 
 import (
-	"encoding/json"
 	"log"
 	"net/http"
 
+	"github.com/gin-gonic/gin"
 	"github.com/nfwGytautas/wdtk-go-backend/microservice"
 	"github.com/nfwGytautas/wdtk-services/auth/context"
 	"golang.org/x/crypto/bcrypt"
@@ -15,19 +15,21 @@ type registerIn struct {
 	Password   string `json:"password"`
 }
 
-func Register(executor *microservice.EndpointExecutor) {
+func Register(c *gin.Context) {
 	log.Println("Executing register request")
 
 	var requestData registerIn
-	err := json.Unmarshal(executor.Body, &requestData)
-	if err != nil {
-		executor.Return(http.StatusBadRequest, err)
+	if !microservice.GinParseRequestBody(c, &requestData) {
 		return
 	}
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(requestData.Password), bcrypt.MinCost)
 	if err != nil {
-		executor.Return(http.StatusBadRequest, err)
+		// Don't send error info for security
+		c.JSON(http.StatusBadRequest, microservice.EndpointError{
+			Description: "Failed to create password hash",
+			Error:       nil,
+		})
 		return
 	}
 
@@ -37,11 +39,14 @@ func Register(executor *microservice.EndpointExecutor) {
 		Role:       "new",
 	}
 
-	err = executor.ServiceContext.(*context.AuthData).CreateUser(&u)
+	err = context.Context.CreateUser(&u)
 	if err != nil {
-		executor.Return(http.StatusInternalServerError, err)
+		c.JSON(http.StatusBadRequest, microservice.EndpointError{
+			Description: "Failed to create user",
+			Error:       err,
+		})
 		return
 	}
 
-	executor.Return(http.StatusNoContent, nil)
+	c.Status(http.StatusNoContent)
 }

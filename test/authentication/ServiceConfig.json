@@ -1,6 +1,6 @@
 {
-    "runAddress": ":8080",
-    "gateway": "...",
-    "connectionString": "Mock",
-    "apiKey": "TEST_KEY"
+    "runAddress": ":8081",
+    "gatewayIp": "...",
+    "apiKey": "21215eea-a076-461f-bfb9-fb8b83e83302",
+    "connectionString": "root:my-secret-pw@tcp(127.0.0.1:60914)/users?charset=utf8mb4\u0026parseTime=True\u0026loc=Local"
 }

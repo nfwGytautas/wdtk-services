@@ -2,3 +2,4 @@ bin/
 
 # Testing
 authentication/ServiceConfig.json
+gateway/ServiceConfig.json
