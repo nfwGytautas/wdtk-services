@@ -3,3 +3,5 @@ bin/
 # Testing
 authentication/ServiceConfig.json
 gateway/ServiceConfig.json
+
+test/http-server/html/
