@@ -29,6 +29,7 @@ func handleRequest(c *gin.Context) {
 	endpointName := c.Param("endpoint")
 
 	if serviceName == "" || endpointName == "" {
+		log.Println("Unspecified service or endpoint")
 		c.JSON(http.StatusBadRequest, microservice.EndpointError{
 			Description: "Service or endpoint not specified",
 			Error:       nil,
@@ -39,6 +40,7 @@ func handleRequest(c *gin.Context) {
 	// Get ip to proxy to
 	ip, err := locatorTable.GetIp(serviceName)
 	if err != nil {
+		log.Printf("Unknown service %s", serviceName)
 		c.JSON(http.StatusBadRequest, microservice.EndpointError{
 			Description: "Service doesn't exist in the locator table",
 			Error:       err,
@@ -49,6 +51,7 @@ func handleRequest(c *gin.Context) {
 	// Endpoint and service valid proxy the request
 	url, err := url.Parse(fmt.Sprintf("http://%s/%s", ip, endpointName))
 	if err != nil {
+		log.Println("Failed to create proxy url")
 		c.JSON(http.StatusBadRequest, microservice.EndpointError{
 			Description: "Failed to create url object for proxy",
 			Error:       err,

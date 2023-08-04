@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/nfwGytautas/wdtk-go-backend/microservice"
 )
@@ -18,7 +19,8 @@ func main() {
 
 	// Create gin engine
 	r := gin.Default()
-	r.SetTrustedProxies(nil)
+	// r.SetTrustedProxies(nil)
+	r.Use(cors.Default())
 
 	// Configure forwarding routes
 	SetupRoutes(config, r)
