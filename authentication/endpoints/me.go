@@ -3,6 +3,7 @@ package endpoints
 import (
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/nfwGytautas/wdtk-go-backend/microservice"
@@ -10,8 +11,8 @@ import (
 )
 
 type meOut struct {
-	Identifier string `json:"identifier"`
-	Role       string `json:"role"`
+	Identifier string   `json:"identifier"`
+	Role       []string `json:"roles"`
 }
 
 func Me(c *gin.Context) {
@@ -37,7 +38,7 @@ func Me(c *gin.Context) {
 
 	result := meOut{
 		Identifier: user.Identifier,
-		Role:       user.Role,
+		Role:       strings.Split(user.Role, ";"),
 	}
 
 	c.JSON(http.StatusOK, result)

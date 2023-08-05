@@ -51,8 +51,10 @@ github.com/modern-go/reflect2 v1.0.2 h1:xBagoLtFs94CBntxluKeaWgTMpvLxC4ur3nMaC9G
 github.com/modern-go/reflect2 v1.0.2/go.mod h1:yWuevngMOJpCy52FWWMvUC8ws7m/LJsjYzDa0/r8luk=
 github.com/nfwGytautas/gdev v0.0.0-20230620074412-1e266aa35e73 h1:uhcPJqCY86xgS5uDI5C2L1wna+OSaSMg6dDVhWAwAMA=
 github.com/nfwGytautas/gdev v0.0.0-20230620074412-1e266aa35e73/go.mod h1:3IkfaruH9iPyE+YgHHBN5Ywcrmk31dcWxA2xiUSYfl4=
-github.com/nfwGytautas/wdtk-go-backend/microservice v0.0.0-20230621084348-515087a9faab h1:wp8w4rrtIOhWF1oWu/1/viRYVmpHXb754b7aRZZ1kYw=
-github.com/nfwGytautas/wdtk-go-backend/microservice v0.0.0-20230621084348-515087a9faab/go.mod h1:OCaLwnxokCmWlc4h0B6Lif02h/TrUlUvBYzJQ/n+vj4=
+github.com/nfwGytautas/wdtk-go-backend/microservice v0.0.0-20230621155150-265791835dfa h1:RJO/k52P4Aa3m+uFJoNIOhjHe3pt9xkyHfbycYE03kg=
+github.com/nfwGytautas/wdtk-go-backend/microservice v0.0.0-20230621155150-265791835dfa/go.mod h1:OCaLwnxokCmWlc4h0B6Lif02h/TrUlUvBYzJQ/n+vj4=
+github.com/nfwGytautas/wdtk-go-backend/microservice v0.0.0-20230805095338-b7d33b028d4a h1:3sNeUH1g2g+3uYTP1O38el16YqTIXY1wl5F6d8bOX7w=
+github.com/nfwGytautas/wdtk-go-backend/microservice v0.0.0-20230805095338-b7d33b028d4a/go.mod h1:OCaLwnxokCmWlc4h0B6Lif02h/TrUlUvBYzJQ/n+vj4=
 github.com/pelletier/go-toml/v2 v2.0.8 h1:0ctb6s9mE31h0/lhu+J6OPmVeDxJn+kYnJc2jZR9tGQ=
 github.com/pelletier/go-toml/v2 v2.0.8/go.mod h1:vuYfssBdrU2XDZ9bYydBu6t+6a6PYNcZljzZR9VXg+4=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

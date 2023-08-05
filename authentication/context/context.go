@@ -1,66 +1,70 @@
 package context
 
 import (
+	"log"
+	"sync"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 type User struct {
-	gorm.Model
-	Identifier string
-	Password   string
-	Role       string
+	ID         uint   `gorm:"primarykey;type:uint"`
+	Identifier string `gorm:"unique;not null"`
+	Password   string `gorm:"not null"`
+	Role       string `gorm:"not null"`
 }
 
 type Tokens struct {
-	gorm.Model
-	User  string
-	Token string
+	UserID uint `gorm:"unique,type:uint"`
+	Token  string
+
+	User User `gorm:"foreignKey:UserID"`
 }
 
 type AuthData struct {
-	dbConn *gorm.DB
+	mx               sync.Mutex
+	dbConn           *gorm.DB
+	connectionString string
 }
 
 var Context AuthData
 
 func (ad *AuthData) SetupDatabase(connectionString string) error {
+	ad.connectionString = connectionString
+	ad.dbConn = nil
+	return ad.verifyConnection()
+}
+
+func (ad *AuthData) establishConnection() error {
 	var err error
-	ad.dbConn, err = gorm.Open(mysql.Open(connectionString), &gorm.Config{})
+	ad.dbConn, err = gorm.Open(mysql.Open(ad.connectionString), &gorm.Config{})
 
 	if err != nil {
+		ad.dbConn = nil
 		return err
 	}
 
 	// Create tables
-	ad.dbConn.AutoMigrate(&User{})
+	// ad.dbConn.Migrator().DropTable(&User{}, &Tokens{})
+	err = ad.dbConn.AutoMigrate(&User{}, &Tokens{})
+	if err != nil {
+		log.Panicln("[ERROR] Failed to migrate")
+		ad.dbConn = nil
+		return err
+	}
 
 	return nil
 }
 
-func (ad *AuthData) GetUser(identifier string) (User, error) {
-	u := User{}
+func (ad *AuthData) verifyConnection() error {
+	ad.mx.Lock()
+	defer ad.mx.Unlock()
 
-	err := ad.dbConn.Model(User{}).Where("identifier = ?", identifier).Take(&u).Error
-	if err != nil {
-		return u, err
+	if ad.dbConn != nil {
+		return nil
 	}
 
-	return u, nil
-}
-
-func (ad *AuthData) GetUserByID(identifier uint) (User, error) {
-	u := User{}
-
-	err := ad.dbConn.Model(User{}).First(&u, identifier).Error
-	if err != nil {
-		return u, err
-	}
-
-	return u, nil
-}
-
-func (ad *AuthData) CreateUser(user *User) error {
-	err := ad.dbConn.Create(user).Error
-	return err
+	// Try connect
+	return ad.establishConnection()
 }
