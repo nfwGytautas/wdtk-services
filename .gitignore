@@ -3,5 +3,6 @@ bin/
 # Testing
 authentication/ServiceConfig.json
 gateway/ServiceConfig.json
+debugger/ServiceConfig.json
 
 test/http-server/html/
