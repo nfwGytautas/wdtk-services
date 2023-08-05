@@ -20,7 +20,11 @@ func main() {
 	// Create gin engine
 	r := gin.Default()
 	// r.SetTrustedProxies(nil)
-	r.Use(cors.Default())
+
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowAllOrigins = true
+	corsConfig.AllowHeaders = append(corsConfig.AllowHeaders, "Authorization")
+	r.Use(cors.New(corsConfig))
 
 	// Configure forwarding routes
 	SetupRoutes(config, r)

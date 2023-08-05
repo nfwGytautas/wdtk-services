@@ -3,6 +3,7 @@ go 1.20
 use ./gateway
 use ./authentication
 use ./http-server
+use ./debugger
 
 use ./test/gateway
 use ./test/authentication
