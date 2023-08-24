@@ -1,7 +1,6 @@
 package endpoints
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -20,8 +19,6 @@ type loginOut struct {
 }
 
 func Login(c *gin.Context) {
-	log.Println("Executing login request")
-
 	var requestData loginIn
 	if !microservice.GinParseRequestBody(c, &requestData) {
 		return

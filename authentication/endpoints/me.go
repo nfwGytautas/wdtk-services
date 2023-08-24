@@ -1,7 +1,6 @@
 package endpoints
 
 import (
-	"log"
 	"net/http"
 	"strings"
 
@@ -16,8 +15,6 @@ type meOut struct {
 }
 
 func Me(c *gin.Context) {
-	log.Println("Executing me request")
-
 	tokenInfo, err := microservice.GetTokenInfo(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, microservice.EndpointError{

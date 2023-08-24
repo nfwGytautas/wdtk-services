@@ -1,7 +1,6 @@
 package endpoints
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -16,8 +15,6 @@ type registerIn struct {
 }
 
 func Register(c *gin.Context) {
-	log.Println("Executing register request")
-
 	var requestData registerIn
 	if !microservice.GinParseRequestBody(c, &requestData) {
 		return
