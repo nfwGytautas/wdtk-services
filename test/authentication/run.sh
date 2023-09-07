@@ -1,6 +1,6 @@
 #/bin/bash
 
-cp ServiceConfig.json ../../authentication/
+cp WdtkConfig.json ../../authentication/
 
 cd ../../authentication/
 go run .

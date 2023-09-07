@@ -1,6 +1,6 @@
 #/bin/bash
 
-cp ServiceConfig.json ../../gateway/
+cp WdtkConfig.json ../../gateway/
 
 cd ../../gateway/
 go run .
