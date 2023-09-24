@@ -30,5 +30,20 @@ func main() {
 	SetupRoutes(config, r)
 
 	// Run gin and block routine
-	r.Run(config.RunAddress)
+	httpsEnabled, httpsDefined := config.UserDefines["HTTPS"]
+	if httpsDefined && httpsEnabled.(bool) {
+		// HTTPS requires key and certification file
+		certFile, certDefined := config.UserDefines["CertFile"]
+		keyFile, keyDefined := config.UserDefines["KeyFile"]
+
+		if !certDefined || !keyDefined {
+			log.Fatal("'CertFile' and 'KeyFile' must be defined")
+			return
+		}
+
+		r.RunTLS(config.RunAddress, certFile.(string), keyFile.(string))
+	} else {
+		// HTTP
+		r.Run(config.RunAddress)
+	}
 }
